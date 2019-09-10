@@ -12,9 +12,10 @@ public class ContainerOfObjects {
 
     private final int DEFAULT_SIZE = 100;
     private Object objects[];
-
     private int numObjects;
 
+    
+    
     /**
      * <h3>Método Construtor</h3> que permite a instância da class tendo por
      * base um vetor de elementos recebidos
@@ -25,9 +26,8 @@ public class ContainerOfObjects {
 	this.objects = objects;
     }
 
-    public Object[] getObjects() {
-	return objects;
-    }
+
+    
 
     public Object getObjectP(int position) {
 	return objects[position];
@@ -178,14 +178,15 @@ public class ContainerOfObjects {
     }
 
     
-    
-    
-    
-    
-    
     public int getNumObjects() {
 	return numObjects;
     }
+    
+
+
+    
+    
+    
 
     /**
      *

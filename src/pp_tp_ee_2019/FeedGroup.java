@@ -16,13 +16,14 @@ public class FeedGroup implements FeedGroupContract{
     private int id;
     private String title;
     private String description;
-    private ContainerOfObjects feed;
+    final private ContainerOfObjects feed;
 
-    
+    // iniciar grupo vazio
     public FeedGroup() {
         this.feed = new ContainerOfObjects();
     }
 
+    // iniciar grupo ja com titulo e descricao pelo menos
     public FeedGroup(String title, String description) {
         this.title = title;
         this.description = description;
@@ -41,22 +42,22 @@ public class FeedGroup implements FeedGroupContract{
 
     @Override
     public String getTitle() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return title;
     }
 
     @Override
-    public void setTitle(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return description;
     }
 
     @Override
-    public void setDescription(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -86,7 +87,7 @@ public class FeedGroup implements FeedGroupContract{
 
     @Override
     public int numberFeeds() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.feed.getNumObjects();
     }
 
     @Override

@@ -30,15 +30,13 @@ public class App implements AppContract {
     }
 
     @Override
-    public FeedGroupContract getGroup(int i) throws ObjectmanagementException {
-        
-        
-        
-        return null;
+    public FeedGroupContract getGroup(int i) throws ObjectmanagementException {        
+        return this.groups.getObjectP(i);
     }
 
-    @Override
+    @Override 
     public FeedGroupContract getGroupByID(int i) throws ObjectmanagementException {
+   
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
