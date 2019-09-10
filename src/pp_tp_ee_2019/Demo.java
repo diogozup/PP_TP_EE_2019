@@ -1,5 +1,9 @@
 package pp_tp_ee_2019;
 
+import com.google.gson.Gson;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import rss.resources.app.Views.ExecutionMode;
 import rss.resources.app.Views.MainFrame;
 import rss.resources.app.exceptions.ObjectmanagementException;
@@ -14,6 +18,7 @@ public class Demo {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
 
 
@@ -22,11 +27,12 @@ public class Demo {
     
     
     
-    public static void main(String[] args) throws ObjectmanagementException {
+    public static void main(String[] args) throws ObjectmanagementException, Exception {
 
-     App app = new App();
+        // _Iniciar app
+    App app = new App();
      
-     app.addGroup("Titulo1", "description1111");
+    app.addGroup("Titulo1", "description1111");
      app.addGroup("Titulo1", "description1111");
      app.addGroup("Titulo1", "description1111");
 
@@ -34,13 +40,30 @@ public class Demo {
      app.removeGroup(1);
      System.out.println("Num grupos: " + app.numberGroups());
 
-     
-     
-     
-     
-     
-    //MainFrame gui = new MainFrame(app, ExecutionMode.DEVELOPMENT);
 
+     app.saveGroups();
+     app.loadGroups();
+
+     
+
+
+     MainFrame gui = new MainFrame(app, ExecutionMode.DEVELOPMENT);
+    
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
     }
 
-}
+
+
+
+        
+}//EODemo
