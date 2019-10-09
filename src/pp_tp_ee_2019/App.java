@@ -1,26 +1,26 @@
 package pp_tp_ee_2019;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.FileInputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import rss.resources.app.Controllers.AppContract;
 import rss.resources.app.Models.FeedGroupContract;
 import rss.resources.app.Models.FeedItemContract;
 import rss.resources.app.exceptions.ObjectmanagementException;
-import java.io.Writer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 /*
 * Nome: Diogo Sa Tinoco Magalhaes
 * Número: 8120336
 * Turma: 1
  */
-public class App implements AppContract {
+public class App implements AppContract  , Serializable{
 
     ContainerOfObjects groups;
 
@@ -45,45 +45,80 @@ public class App implements AppContract {
         return (FeedGroupContract) this.groups.getObjectP(i);
     }
 
-    @Override //////////////////////////////////////////////////////////////////
-    public FeedGroupContract getGroupByID(int i) throws ObjectmanagementException {
-   
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    @Override 
+    public FeedGroupContract getGroupByID(int id) throws ObjectmanagementException {
+       
+        for (int j = 0; j < this.groups.getNumObjects(); j++) {
+            FeedGroupContract object = (FeedGroupContract) this.groups.getObjectP(id);
+            if(object.getID()==id){
+                return object;
+            }
+        }
+        throw new ObjectmanagementException("Nao encontrou um grupo com este id!");
     }
 
+    
+    
     @Override
     public int numberGroups() {
         return this.groups.getNumObjects();
     }
 
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
-    @Override //////////////////////////////////////////////////////////////////
+    @Override 
     public FeedItemContract[] getItemsByTag(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void saveGroups() throws Exception {
-        Gson json = new GsonBuilder().create();
+    public void saveGroups() throws Exception  {
+        // ESCREVER BINARI FILE DE GROUPS
+        String fileName = "data.bin";
+        try {
+        ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
+        os.writeObject(this.groups); // write Object (groups)
+        os.close();
+        } catch (IOException e) {
 
-        try (Writer writer = new FileWriter("Output.json")) {
-            json.toJson(groups, writer);
         }
+        System.out.println("Done Writing");
     }
 
+        
+        
+        
+        
+
+////////////////////////////////777
+    //////////////////////////////////77
+    
+    //////////////////////////////////////
     
     @Override
     public void loadGroups() throws Exception {
-        JSONParser parser = new JSONParser();
-
-        try (Reader reader = new FileReader("Output.json")) {
-            JSONObject jsonObject = (JSONObject) parser.parse(reader);
-            System.out.println(jsonObject);
-
-            Long size = (Long) jsonObject.get("DEFAULT_SIZE");
-            System.out.println(size);
+        // LER OBJECT JAVA (binario)
+        String fileName = "data.bin";
+        
+        System.out.println("trying to Read groups !");
+                
+        try {
+            ObjectInputStream is = new ObjectInputStream(new FileInputStream(fileName));
+            this.groups = (ContainerOfObjects)is.readObject();
+            System.out.println("Read groups !");
+            is.close();
+            System.out.println(this.groups.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
+        
     }
 
     
@@ -97,14 +132,68 @@ public class App implements AppContract {
         return myGroups;
     }
 
-    @Override //////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//    REVER AQUI
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    @Override 
     public FeedItemContract[] getAllSavedItems() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // 1- saber total de items no groupo
+            int numTotalItems = 0 ;
+            FeedItemContract[] feedItems = null;
+            
+            
+            try{        
+            for (int i = 0; i < groups.getNumObjects(); i++) {
+                int numFeeds =  ((FeedGroupContract)groups.getObjectP(i)).numberFeeds();
+                for (int j = 0; j < numFeeds; j++) {
+                    numTotalItems += ((FeedGroupContract)groups.getObjectP(i)).getFeed(j).numberItems();
+                }
+            }
+            
+            feedItems = new FeedItemContract[numTotalItems];
+            
+            int pos = 0;
+            
+            for (int i = 0; i < groups.getNumObjects(); i++) {
+                int numFeeds =  ((FeedGroupContract)groups.getObjectP(i)).numberFeeds();
+                for (int j = 0; j < numFeeds; j++) {
+                    int numItems = ((FeedGroupContract)groups.getObjectP(i)).getFeed(j).numberItems();
+                    
+                    for (int k = 0; k < numItems ; k++) {
+                        FeedItemContract item = ((FeedGroupContract)groups.getObjectP(i)).getFeed(j).getItem(k);
+                        feedItems[pos] = item;
+                        pos++;
+                        
+                    }
+                    
+                }
+            }
+            }catch(ObjectmanagementException e){
+                System.out.println("Erro aqui"); 
+            }
+            return feedItems;
+    
     }
-
-    @Override //////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    
+    
+    @Override 
     public boolean removeSavedItem(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
+        
+        
+        
     }
 
 }

@@ -16,29 +16,27 @@ public class FeedGroup implements FeedGroupContract{
     private int id;
     private String title;
     private String description;
-    final private ContainerOfObjects feed;
+    final private ContainerOfObjects feeds;
+    
 
     // iniciar grupo vazio
     public FeedGroup() {
-        this.feed = new ContainerOfObjects();
+        this.feeds = new ContainerOfObjects();
     }
 
     // iniciar grupo ja com titulo e descricao pelo menos
     public FeedGroup(String title, String description) {
         this.title = title;
         this.description = description;
-        this.feed = new ContainerOfObjects();
+        this.feeds = new ContainerOfObjects();
     
     }
 
     
-    
-    
 
     @Override
     public int getID() {
-        return feed.findObject(feed);
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return id;
     }
 
     @Override
@@ -46,6 +44,7 @@ public class FeedGroup implements FeedGroupContract{
         return title;
     }
 
+    
     @Override
     public void setTitle(String title) {
         this.title = title;
@@ -62,41 +61,69 @@ public class FeedGroup implements FeedGroupContract{
     }
 
     @Override
-    public boolean addFeed(String string) throws GroupException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean addFeed(String url) throws GroupException {
+    Feed f = new Feed(url);
+    return feeds.addObject(f);
     }
-
+    
     @Override
     public boolean addFeed(FeedContract fc) throws GroupException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return feeds.addObject(fc);
     }
 
+    
     @Override
     public boolean removeFeed(FeedContract fc) throws ObjectmanagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int index = feeds.findObject(fc);
+       
+        if(index >=0){
+        feeds.removeObject(index);
+            return true;
+        }else{
+            return false;
+        }
     }
 
+    
     @Override
     public FeedContract getFeed(int i) throws ObjectmanagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (i>=0 && i< feeds.getNumObjects()){
+            return (FeedContract)feeds.getObjectP(i);
+        }else{
+            throw new  ObjectmanagementException("Nao existe feed nesta posicao");
+        }
     }
 
+    
+    
+    
     @Override
-    public FeedContract getFeedByID(int i) throws ObjectmanagementException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public FeedContract getFeedByID(int id) throws ObjectmanagementException {
+        for (int j = 0; j < feeds.getNumObjects(); j++) {
+           FeedContract object = (FeedContract) feeds.getObjectP(j);
+           if(object.getID() == id){
+               return object;
+           }
+        } 
+        throw new ObjectmanagementException("Nao encontrou feed com este ID");
     }
 
     @Override
     public int numberFeeds() {
-        return this.feed.getNumObjects();
+        return this.feeds.getNumObjects();
     }
 
+    
+    // !----------------------------- VOID => FeedContract ? ---------
     @Override
     public void getData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        return FeedContract;
     }
     
 
 
 
+
 }
+
+//** COMO SE GRAVA PARA FICHEIRO

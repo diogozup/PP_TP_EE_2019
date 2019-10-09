@@ -179,6 +179,8 @@ public class ContainerOfObjects {
     }
 
     
+    
+    
     public int getNumObjects() {
 	return numObjects;
     }

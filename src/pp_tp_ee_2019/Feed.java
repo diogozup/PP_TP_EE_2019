@@ -2,6 +2,7 @@
 package pp_tp_ee_2019;
 
 import java.util.Calendar;
+import java.util.Date;
 import rss.resources.app.Models.FeedContract;
 import rss.resources.app.Models.FeedItemContract;
 import rss.resources.app.exceptions.FeedException;
@@ -17,59 +18,72 @@ import rss.resources.app.exceptions.ObjectmanagementException;
 public class Feed implements FeedContract{
 
     String title;
+    String url;
     String description;
+    Calendar publicationDate;
     String language;
-    String pubDate;
-    String copyright;
-        String link;
+    String categories ;
+    String author;
     
-    
-    
+
+    public Feed(String url) {
+        this.url = url;
+    }
     
     
     @Override
     public String getTitle() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return title;
     }
 
     @Override
     public void setTitle(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       this.title = string;
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return description;
     }
 
     @Override
     public void setDescription(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.description = string;
     }
 
     @Override
     public String getLanguage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return language;
     }
 
     @Override
     public void setLanguage(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.language = string;
     }
-
-    @Override
+    
+    
+    @Override 
     public Calendar getBuildDate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return publicationDate;
     }
 
     @Override
     public void setBuildDate(Calendar clndr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.publicationDate = clndr;    
     }
 
     @Override
     public boolean addItem(String string, String string1, String string2, Calendar clndr, String string3, String string4) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        this.title = string;
+        this.url = string1;
+        this.description = string2;
+        this.publicationDate = clndr;
+        this.categories = string3;
+        this.author = string4;
+        
+        
+        return true;
     }
 
     @Override
